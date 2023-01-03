@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    image: 'davidmavrodiev/sample-rest-api:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/movies_quiz
+      SPRING_DATASOURCE: USERNAME=postgres
+      SPRING_DATASOURCE_PASSWORD: david
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+    ports:
+      - '8080:8080'
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: david
+      POSTGRES_DB: movies_quiz
+      APP_DB_USER: postgres
+      APP_DB_PASS: david
+      APP_DB_NAME: movies_quiz
+    ports:
+      - "5432:5432"
